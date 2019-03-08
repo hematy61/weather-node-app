@@ -5,7 +5,7 @@ const keys = require('../keys.json');
 
 
 const weather = (longitude, latitude, callback) => {
-  const weatherURL = `https://api.darksky.net/forecast/${keys.darksky}/${longitude},${latitude}?units=si`;
+  const weatherURL = `https://api.darksky.net/forecast/${keys.darksky}/${latitude},${longitude}?units=si`;
   request({
     url: weatherURL,
     json: true
@@ -20,7 +20,7 @@ const weather = (longitude, latitude, callback) => {
     } else if (response.body.error) {
       callback(response.body.error, undefined)
     } else {
-      callback(undefined, response.body.currently.temperature)
+      callback(undefined, `The temperature is ${response.body.currently.temperature} with ${response.body.currently.precipProbability}% chance of rain.`)
     }
   })
 }

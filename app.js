@@ -13,20 +13,22 @@ yargs.command({
       type: 'string'
     }
   },
-  handler(argv) {
-    if (argv.input.length === 0) {
+  handler({input}) {
+
+    if (input.length === 0) {
       return console.log('Please enter your address. The command is: node app.js address --input="your address"')
     }
-    geocode(argv.input, (error, geocodeData) => {
+
+    geocode(input, (error, {longitude, latitude, location}) => {
       if (error) {
         return console.log(error)
       }
       
-      weather(geocodeData.longitude, geocodeData.latitude, (error, weatherData) => {
+      weather(longitude, latitude, (error, weatherData) => {
         if (error) {
           return console.log(error)
         }
-        console.log(geocodeData.location)
+        console.log(location)
         console.log(weatherData)
       });
     });

@@ -9,7 +9,7 @@ const geocode = (address, callback) => {
   request({
     url: geocodeURL,
     json: true
-  }, (error, response) => {
+  }, (error, { body = {} }) => {
     // Error Handling
     // there are 3 types of errors here: 
     // 1- the errors that "request" sending back, like internet connection problems and
@@ -17,15 +17,15 @@ const geocode = (address, callback) => {
     // are coming within the body of "response" and we can catch them here in else if statements.
     if (error) {
       callback('Unable to connect to the location service!', undefined)
-    } else if (response.body.message) {
-      callback(response.body.message, undefined)
-    } else if (response.body.features.length === 0) {
-      callback(`We are sorry. The ${response.body.query}°C location does not exist in our database!`, undefined)
+    } else if (body.message) {
+      callback(body.message, undefined)
+    } else if (body.features.length === 0) {
+      callback(`We are sorry. The ${body.query}°C location does not exist in our database!`, undefined)
     } else {
       callback(undefined, {
-        longitude: response.body.features[0].center[0],
-        latitude: response.body.features[0].center[1],
-        location: response.body.features[0].place_name
+        longitude: body.features[0].center[0],
+        latitude: body.features[0].center[1],
+        location: body.features[0].place_name
       });
     }
   })

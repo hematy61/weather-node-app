@@ -9,7 +9,7 @@ const weather = (longitude, latitude, callback) => {
   request({
     url: weatherURL,
     json: true
-  }, (error, response) => {
+  }, (error, { body = {} }) => {
     // Error Handling
     // there are 2 types of errors here: 
     // 1- the errors that "request" sending back, like internet connection problems and
@@ -17,10 +17,10 @@ const weather = (longitude, latitude, callback) => {
     // are coming within the body of "response" and we can catch them here in else if statement.
     if (error) {
       callback('Unable to connect to the weather service', undefined)
-    } else if (response.body.error) {
-      callback(response.body.error, undefined)
+    } else if (body.error) {
+      callback(body.error, undefined)
     } else {
-      callback(undefined, `The temperature is ${response.body.currently.temperature} with ${response.body.currently.precipProbability}% chance of rain.`)
+      callback(undefined, `The temperature is ${body.currently.temperature} with ${body.currently.precipProbability}% chance of rain.`)
     }
   })
 }

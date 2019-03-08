@@ -20,7 +20,7 @@ const geocode = (address, callback) => {
     } else if (response.body.message) {
       callback(response.body.message, undefined)
     } else if (response.body.features.length === 0) {
-      callback(`We are sorry. The ${response.body.query} location does not exist in our database!`, undefined)
+      callback(`We are sorry. The ${response.body.query}°C location does not exist in our database!`, undefined)
     } else {
       callback(undefined, {
         longitude: response.body.features[0].center[0],
